@@ -18,7 +18,7 @@ PAGES:
 
 *Register Page
   **Sign up
-    ***Name - username
+    ***Username
     ***Email
     ***Password
   **Sign In
@@ -41,6 +41,7 @@ PAGES:
 
 #User Model
   *id
+  *username
   *email
   *Password_digest
     **User has_many Patterns
@@ -49,14 +50,18 @@ PAGES:
   *id
   *user_id
   *name
-  *description
+  *directions
+  *material_id
   *yarn_type
   *needle_type
   *notions_type
+  *belongs_to User
+  *has_many Materials
 
 #Material Model
   *id
-  *name
+  *material_name
+  *project_id
   *type - yarn, needles, notions
 
 #Routes
