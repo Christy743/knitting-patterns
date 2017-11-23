@@ -9,9 +9,21 @@ class UsersController < ApplicationController
   end
 
   get '/signup' do
-    erb :'/users/sign_up'
+    if !logged_in?
+      erb :'/users/sign_up'
+    else
+      redirect to '/projects'
+    end
   end
 
-
+  post '/signup' do
+    @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
+    if @user.save
+      session[:user_id] = @user.id
+      redirect to '/projects'
+    else
+      redirect to '/signup'
+    end
+  end
 
 end
