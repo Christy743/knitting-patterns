@@ -1,0 +1,16 @@
+<h3><%= @user.username %>Projects</h3>
+
+<% if @user.projects.count == 0 %>
+  <p>There are no projects</p>
+<% else %>
+  <ul>
+    <% @user.projects.each do |project| %>
+    <li><a href="/users/<%= project.user.slug %>"><%= project.user.username %></a>
+      <%= project.content %>
+      <% if current_user == project.user %>
+        <a href="/projects/<%= project.id %>"></a>
+      <% end %>
+    </li>
+      <% end %>
+    </ul>
+      <% end %>
