@@ -39,6 +39,7 @@ class UsersController < ApplicationController
 
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
+      binding.pry
       redirect to '/projects'
     else
       redirect to "/login"
