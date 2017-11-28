@@ -6,7 +6,7 @@
   <ul>
     <% @user.projects.each do |project| %>
     <li><a href="/users/<%= project.user.slug %>"><%= project.user.username %></a>
-      <%= project.content %>
+      <%= project.directions %>
       <% if current_user == project.user %>
         <a href="/projects/<%= project.id %>"></a>
       <% end %>

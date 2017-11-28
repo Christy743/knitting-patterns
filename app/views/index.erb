@@ -1,1 +1,15 @@
 <h1>Welcome to Knitting Patterns to Share!</h1>
+
+<h3>Knitting Pattern List</h3>
+
+<ul>
+  <%@project = Project.all%>
+  <%@project.each do |project|%>
+  <li><%=project.name%></li>
+  <%end%>
+</ul>
+
+<br />
+<br />
+
+<p>Please <a href="/signup">Sign Up</a> or <a href="/login">Log In</a> to continue.</p>
