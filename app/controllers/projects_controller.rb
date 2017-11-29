@@ -18,13 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   post '/projects' do
-    @project = current_user.project.create(name: name, directions: directions)
-
-    if @project.save
-      redirect to "/users/#{current_user.slug}"
-    else
-      redirect to "/projects/new"
-    end
+    
   end
 
   get 'projects/:id' do
