@@ -5,11 +5,11 @@
 <ul>
   <%@project = Project.all%>
   <%@project.each do |project|%>
-  <li><%=project.name%></li>
+  <li><a href="/projects/<%=project.name%>"><%= project.name %></a></li>
   <%end%>
 </ul>
 
 <br />
 <br />
 
-<p>Please <a href="/signup">Sign Up</a> or <a href="/login">Log In</a> to continue.</p>
+<p>Please <a href="/signup">Sign Up</a> or <a href="/login">Sign In</a> to continue.</p>
