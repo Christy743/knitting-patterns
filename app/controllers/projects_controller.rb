@@ -17,8 +17,10 @@ class ProjectsController < ApplicationController
     end
   end
 
-  post '/projects' do
-    
+  post '/projects' do  
+    @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
+    binding.pry
+    redirect to "/projects/#{@project.id}"
   end
 
   get 'projects/:id' do
@@ -36,7 +38,7 @@ class ProjectsController < ApplicationController
 
   get '/projects/:id/edit' do
     if logged_in?
-      @project = Project.find_by(params[:id])
+      @project = Project.find_by_id(params[:id])
       if current_user == @project.user
         erb :'projects/edit'
       else
@@ -49,7 +51,9 @@ class ProjectsController < ApplicationController
 
     patch '/projects/:id' do
       @project = Project.find_by(id: params[:id])
-      @project.directions = params[:directions]
+      @project.name = params[:name]
+      @project.directions = [:directions]
+
       if @project.save
         redirect to "/projects/#{@project.id}"
       else
@@ -58,7 +62,7 @@ class ProjectsController < ApplicationController
     end
 
     delete '/projects/:id/delete' do
-      @project = Project.find_by(id: params[:id])
+      @project = Project.find_by_id(params[:id])
       if current_user == @project.user
         @project.delete
       end
