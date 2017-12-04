@@ -3,7 +3,7 @@
 <% if logged_in? %>
   <ul>
     <% @project.each_with_index do |project, i| %>
-      <li><%= i + 1 %>. <a href="/projects/<%= project.name %>"><%= project.name %></a></li>
+      <li><%= i + 1 %>. <a href="/projects/projects/<%= project.name %>"><%= project.name %></a></li>
     <% end %>
   </ul>
     <% end %>
