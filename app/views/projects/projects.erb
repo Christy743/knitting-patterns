@@ -3,9 +3,13 @@
 <h5><%= @project.name %></h5>
 <h5><%= @project.directions %></h5>
 
-  <form method="post" action="/projects/<%= @project.id %>/delete">
+<br />
+
+  <form method="post" action="/projects<%= @project %>/delete">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete Project">
   </form>
 
-  <a href="/projects/<%= @project.id %>/edit">Edit Project</a>
+<br />
+
+  <a href="/projects/:id<%= @project %>/edit">Edit Project</a>

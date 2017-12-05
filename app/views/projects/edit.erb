@@ -1,6 +1,6 @@
 <h2>Edit Project</h2>
 
-<form action="/projects/:id/edit/<%= @project.user_id %>" method="post">
+<form action="/projects/:id<%= @project.id %>" method="post">
   <input type="text" name="name" value="<%= @project.name %>" placeholder="Name of Project:">
   <input type="text" name="materials" value="<%= @material_name %>" placeholder="Materials:">
   <input type="text" name="directions" value="<%= @project.directions %>" placeholder="Pattern Directions:">

@@ -35,20 +35,60 @@ class ProjectsController < ApplicationController
     end
   end
 
-  get '/projects/:id/edit' do   #*******Stopped at this point to figure out projects.erb form
-    if logged_in?
+    get '/projects/:id/edit' do
+      if logged_in?
+        @user = current_user
+        @project = Project.find_by(params[:user_id])
+        erb :'/projects/edit'
+      end
+    end
+
+    post '/projects/:id' do
+      @project = Project.find_by(params[:user_id])
+      if @project.save
+        redirect to '/projects/#{@project.id}'
+      else
+        redirect to '/projects/#{@project.id}/edit'
+      end
+    end
+
+    get '/projects/' do
+      if !logged_in?
+        @project = Project.find_by_id(params[:id])
+        erb :'projects'
+      else
+        redirect to '/login'
+      end
+    end
+
+    delete '/projects' do
       @project = Project.find_by(params[:id])
       if current_user == @project.user
-        erb :'projects/edit'
-      else
-        redirect to '/projects'
+        @project.delete
       end
-    else
-      redirect to '/login'
+        redirect to '/projects'
     end
-  end
 
 
+  #get '/projects/:id/edit' do   #*******Stopped at this point to figure out projects.erb form
+  #  if logged_in?
+  #    @project = Project.find_by(params[:id])
+  #    if current_user == @user
+  #      erb :'projects/edit'
+  #    else
+  #      redirect to '/projects'
+  #    end
+#    else
+#      redirect to '/login'
+#    end
+#  end
+
+#  post '/projects/:id/edit' do
+#    @project = Project.find_by(id: params[:id])
+#    @project = current_user.projects.update(:name => params[:name], :directions => params[:directions], :material_id => params[:material_id])
+#    @project.save
+#      redirect to '/projects/#{#project.id}/edit'
+#  end
 
 
 #  get '/projects/:id/:slug' do
