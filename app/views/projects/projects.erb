@@ -1,6 +1,7 @@
 <h4>Project</h4>
 
-<%= @project.directions %>
+<h5><%= @project.name %></h5>
+<h5><%= @project.directions %></h5>
 
   <form method="post" action="/projects/<%= @project.id %>/delete">
     <input id="hidden" type="hidden" name="_method" value="delete">
