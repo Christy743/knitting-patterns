@@ -27,9 +27,9 @@ class ProjectsController < ApplicationController
   end
 
   get '/projects/:id' do
-    if logged_in?
-      @project = Project.find_by_id(params[:id])
-      erb :'projects/projects'
+    if logged_in? #|| @project.user_id == session[:user_id]
+      @project = Project.find_by(:id => params[:id])
+      erb :'projects/show_projects'
     else
       redirect to '/login'
     end
@@ -61,7 +61,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    delete '/projects' do
+    delete '/projects/delete' do
       @project = Project.find_by(params[:id])
       if current_user == @project.user
         @project.delete
