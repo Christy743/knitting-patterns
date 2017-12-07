@@ -1,8 +1,10 @@
 class ProjectsController < ApplicationController
 
   get '/projects' do
-    if logged_in?
+    if logged_in? #&& @user = current_user
       @projects = Project.all
+      #@user = current_user
+      #@projects = Project.find_by(:user_id => params[:user_id])
       erb :'projects/index'
     else
       redirect to '/login'
@@ -21,7 +23,7 @@ class ProjectsController < ApplicationController
     if params[:directions] == ""
       redirect to "/projects/new"
     else
-      @project = current_user.projects.create(:name => params[:name], :directions => params[:directions], :material_id => params[:material_id])
+      @project = current_user.projects.create(:name => params[:name], :directions => params[:directions], :material_name => params[:material_name])
       redirect to "/projects/#{@project.id}"
     end
   end

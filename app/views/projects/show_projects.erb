@@ -1,13 +1,15 @@
 <h4>Project</h4>
 
-
+<h5><%= @project.name %></h5>
+<h5>material name here</h5>
+<h5><%= @project.directions %></h5>
 <br />
 
-  <form method="post" action="/projects/delete">
+  <form method="post" action="/projects/<% @project.id %>/delete">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete Project">
   </form>
 
 <br />
 
-  <a href="/projects/:id/edit">Edit Project</a>
+  <a href="/projects/<%= @project.id %>/edit">Edit Project</a>
