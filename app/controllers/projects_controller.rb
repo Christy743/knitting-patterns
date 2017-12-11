@@ -1,9 +1,12 @@
 class ProjectsController < ApplicationController
 
   get '/projects' do
-    if logged_in? #&& @user = current_user
+    if logged_in?
       @projects = Project.all
-      #@user = current_user
+
+      @user = current_user
+      binding.pry
+
       #@projects = Project.find_by(:user_id => params[:user_id])
       erb :'projects/index'
     else
@@ -12,6 +15,7 @@ class ProjectsController < ApplicationController
   end
 
   get '/projects/new' do
+    #@user = current_user
     if logged_in?
       erb :'projects/new'
     else
@@ -20,16 +24,21 @@ class ProjectsController < ApplicationController
   end
 
   post '/projects' do
-    if params[:directions] == ""
-      redirect to "/projects/new"
-    else
-      @project = current_user.projects.create(:name => params[:name], :directions => params[:directions], :material_name => params[:material_name])
-      redirect to "/projects/#{@project.id}"
-    end
+    #@user = current_user
+    #if params[:directions] == ""
+    #  redirect to "/projects/new"
+    #else
+      @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
+        if @project.save
+          redirect to "/projects"
+        else
+          redirect to "/projects/#{@project.id}"
+        end
+    #end
   end
 
   get '/projects/:id' do
-    if logged_in? #|| @project.user_id == session[:user_id]
+    if logged_in? || @project.user_id == session[:user_id]
       @project = Project.find_by(:id => params[:id])
       erb :'projects/show_projects'
     else
@@ -37,13 +46,13 @@ class ProjectsController < ApplicationController
     end
   end
 
-    get '/projects/:id/edit' do
-      if logged_in?
-        @user = current_user
-        @project = Project.find_by(params[:user_id])
-        erb :'/projects/edit'
-      end
-    end
+   get '/projects/:id/edit' do
+     if logged_in?
+       @user = current_user
+       @project = Project.find_by(params[:user_id])
+       erb :'/projects/edit'
+     end
+   end
 
     post '/projects/:id' do
       @project = Project.find_by(params[:user_id])
@@ -54,21 +63,33 @@ class ProjectsController < ApplicationController
       end
     end
 
-    get '/projects/' do
+    get '/projects' do
       if !logged_in?
-        @project = Project.find_by_id(params[:id])
+        @project = Project.find_by(params[:id])
         erb :'projects'
       else
         redirect to '/login'
       end
     end
 
+    #get '/projects/users' do
+    #  @user = User.find_by(params[:id])
+    #  @projects = []
+    #  binding.pry
+    #  Projects.all.each do |project|
+    #    if project.user == @user
+    #      @projects << project
+    #    end
+    #  end
+    #  erb :'users/show'
+    #end
+
     delete '/projects/delete' do
       @project = Project.find_by(params[:id])
-      if current_user == @project.user
+      if @user = current_user
         @project.delete
       end
-        redirect to '/projects'
+      redirect to '/projects'
     end
 
 
