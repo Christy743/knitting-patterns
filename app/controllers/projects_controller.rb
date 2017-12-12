@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
       @projects = Project.all
 
       @user = current_user
-      #binding.pry
+      binding.pry
 
       #@projects = Project.find_by(:user_id => params[:user_id])
       erb :'projects/index'
