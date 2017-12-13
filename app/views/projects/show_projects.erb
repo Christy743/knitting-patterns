@@ -1,8 +1,9 @@
 <h3><%= current_user.username %>'s  Project</h3>
 
-      <%= @project.name %>
-      <br />
-      <%= @project.directions %>
+<%= @project.name %>
+<br />
+<%= @project.directions %>
+
       <br />
 
 <form method="post" action="/projects/<%= @project.id %>/delete">
