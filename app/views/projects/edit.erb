@@ -2,7 +2,7 @@
 
 <form action="/projects/<%= @project.id %>" method="post">
   <input type="text" name="name" value="<%= @project.name %>" placeholder="Name of Project:">
-  <input type="text" name="materials" value="<%= @material_name %>" placeholder="Materials:"> 
+  <input type="text" name="materials" value="<%= @materials %>" placeholder="Materials:">
   <input type="text" name="directions" value="<%= @project.directions %>" placeholder="Pattern Directions:">
   <input type="submit" value="Submit">
 </form>
