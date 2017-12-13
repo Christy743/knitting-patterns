@@ -2,7 +2,7 @@
 
 <ul>
   <% Project.all.each_with_index do |project, i| %>
-    <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name %> </a></li>
+    <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name %></a></li>
   <% end %>
 </ul>
 

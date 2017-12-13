@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
       @user = current_user
       erb :'projects/index'
     else
-      redirect to "/login"
+      redirect to '/login'
     end
   end
 
@@ -14,61 +14,62 @@ class ProjectsController < ApplicationController
     if logged_in?
       erb :'projects/new'
     else
-      redirect to "/login"
+      redirect to '/login'
     end
   end
 
   post '/projects' do
     if params[:name] == "" && params[:directions] == "" && params[:material_name]
-      redirect to "/projects/new"
+      redirect to '/projects/new'
     else
       @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
-      redirect to "/projects/#{@project.id}"
+      redirect to '/projects/#{@project.id}'
     end
   end
 
   get '/projects/:id' do
-    if logged_in? #|| @project.user_id == session[:user_id]
-      @project = Project.find_by(id: params[:id])
-      #binding.pry
-      #@project.name = params[:name]
-      #@project.directions = params[:directions]
+    if logged_in? || @project.user_id == session[:user_id]
+      @project = Project.find_by(params[:id])
+      @project.directions = params[:directions]
       erb :'projects/show_projects'
     else
-      redirect to "/login"
+      redirect to '/login'
     end
   end
 
   get '/projects/:id/edit' do
     if logged_in?
-      @project = Project.find_by(id: params[:id])
-      if current_user == @project.user
+      @user = current_user
+      @project = current_user.projects
+
+      if current_user == @user
+        #binding.pry
         erb :'projects/edit'
       else
-        redirect to "/projects"
+        redirect to '/projects'
       end
     else
-      redirect to "/login"
+      redirect to '/login'
     end
   end
 
-  post '/projects/:id' do
-    @project = Project.find(params[:id])
-
-    #@project.directions = [:directions]
+  post 'projects/:id' do
+    #binding.pry
+    @project = Project.find_by(params[:id])
+    @project.directions = [:directions]
     if @project.save
-      redirect to "/projects/#{@project.id}"
+      redirect to '/projects/#{@project.id}'
     else
-      redirect to "/projects/#{@project.id}/edit"
+      redirect to '/projects/#{@project.id}/edit'
     end
   end
 
   delete '/projects/:id/delete' do
-    @project = Project.find_by(id: params[:id])
+    @project = Project.find_by(params[:id])
     if current_user == @project.user
       @project.delete
     end
-    redirect to "/projects"
+    redirect to '/projects'
   end
 
 end
