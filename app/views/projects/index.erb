@@ -1,9 +1,15 @@
 <h2>Patterns</h2>
 <p>Welcome, <%= current_user.username %></p>
+
+<% if current_user.projects.count == 0 %>
+  <p>There are no projects</p>
+<% else %>
+
 <% if logged_in? && current_user %>
   <ul>
     <% current_user.projects.all.each_with_index do |project, i| %>
-      <li><%= i + 1 %>. <a href="/projects<%= @user.projects %>"><%= project.name %></a></li>
+      <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name %></a></li>
     <% end %>
   </ul>
     <% end %>
+<% end %>
