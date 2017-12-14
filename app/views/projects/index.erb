@@ -6,6 +6,7 @@
 <% else %>
 
 <% if logged_in? && current_user %>
+<h4>List of your projects</h4>
   <ul>
     <% current_user.projects.all.each_with_index do |project, i| %>
       <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name %></a></li>
