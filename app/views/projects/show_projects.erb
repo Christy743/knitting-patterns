@@ -1,4 +1,4 @@
-<h3><%= current_user.username %>'s  Project</h3>
+<h3>Project Pattern</h3>
 
 <%= @project.name %>
 <br />
@@ -10,5 +10,7 @@
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete Project">
 </form>
+
+<p>flash message for deleting someone else's project</p>
 
 <a href="/projects/<%= @project.id %>/edit">Edit Project</a>
