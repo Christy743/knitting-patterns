@@ -22,7 +22,6 @@ class ProjectsController < ApplicationController
     if params[:name] == "" && params[:directions] == "" && params[:material_name]
       redirect to "/projects/new"
     else
-      @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
       redirect to "/projects/#{@project.id}"
     end
   end
@@ -54,7 +53,7 @@ class ProjectsController < ApplicationController
 
   post '/projects/:id' do
     @project = Project.find(params[:id])
-
+    @project.update(:name => params[:name], :directions => params[:directions])
     #@project.directions = [:directions]
     if @project.save
       redirect to "/projects/#{@project.id}"
