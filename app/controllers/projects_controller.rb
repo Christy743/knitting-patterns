@@ -11,7 +11,7 @@ class ProjectsController < ApplicationController
   end
 
   get '/projects/new' do
-    @materials = Material.all
+    #@materials = Material.all
     if logged_in?
       erb :'projects/new'
     else
@@ -20,15 +20,17 @@ class ProjectsController < ApplicationController
   end
 
   post '/projects' do
-
     if params[:name] == "" && params[:directions] == "" && params[:material_name] == ""
       redirect to "/projects/new"
     else
       @materials = Material.all
       @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
       @materials = @project.materials.create(:material_name => params[:material_name])
+      #@materials.save
       #binding.pry
-      redirect to "/projects/#{@project.id}"
+      if @project.save && @materials.save
+        redirect to "/projects/#{@project.id}"
+      end
     end
   end
 
@@ -36,7 +38,7 @@ class ProjectsController < ApplicationController
     if logged_in? #|| @project.user_id == session[:user_id]
       @project = Project.find_by(id: params[:id])
       @materials = Material.find_by(project_id: params[:project_id])
-      #binding.pry
+      binding.pry
       #@project.name = params[:name]
       #@project.directions = params[:directions]
       erb :'projects/show_projects'
@@ -64,10 +66,10 @@ class ProjectsController < ApplicationController
     @materials = Material.find_by(project_id: params[:project_id])
     @project.update(:name => params[:name], :directions => params[:directions])
     @materials.update(:material_name => params[:material_name])
-    @materials.save
+    #@materials.save
     #binding.pry
     #@project.directions = [:directions]
-    if @project.save
+    if @project.save && @materials.save
       redirect to "/projects/#{@project.id}"
     else
       redirect to "/projects/#{@project.id}/edit"
