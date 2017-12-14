@@ -3,6 +3,7 @@
 <% if logged_in? && current_user %>
 
 <form action="/projects/<%= @project.id %>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
   <input type="text" name="name" value="<%= @project.name %>" placeholder="Name of Project:">
   <input type="text" name="material_name" value="<%= @materials.material_name %>" placeholder="Materials:">
   <input type="text" name="directions" value="<%= @project.directions %>" placeholder="Pattern Directions:">
