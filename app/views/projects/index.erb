@@ -12,4 +12,11 @@
     <% end %>
   </ul>
     <% end %>
+    <br />
+    <h4>List of all projects</h4>
+    <ul>
+      <% @projects.all.each_with_index do |project, i| %>
+        <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name %></a></li>
+      <% end %>
+    </ul>
 <% end %>
