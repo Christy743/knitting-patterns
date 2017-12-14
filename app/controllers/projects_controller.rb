@@ -20,12 +20,13 @@ class ProjectsController < ApplicationController
   end
 
   post '/projects' do
-    @materials = Material.all
-    if params[:name] == "" && params[:directions] == "" && params[:material_name]
+
+    if params[:name] == "" && params[:directions] == "" && params[:material_name] == ""
       redirect to "/projects/new"
     else
+      @materials = Material.all
       @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
-      @materials.create(:material_name => params[:material_name])
+      @materials = @project.materials.create(:material_name => params[:material_name])
       #binding.pry
       redirect to "/projects/#{@project.id}"
     end
@@ -63,6 +64,7 @@ class ProjectsController < ApplicationController
     @materials = Material.find_by(project_id: params[:project_id])
     @project.update(:name => params[:name], :directions => params[:directions])
     @materials.update(:material_name => params[:material_name])
+    @materials.save
     #binding.pry
     #@project.directions = [:directions]
     if @project.save
