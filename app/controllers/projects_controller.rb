@@ -11,7 +11,7 @@ class ProjectsController < ApplicationController
   end
 
   get '/projects/new' do
-    #@materials = Material.all
+    @materials = Material.all
     if logged_in?
       erb :'projects/new'
     else
@@ -23,13 +23,14 @@ class ProjectsController < ApplicationController
     if params[:name] == "" && params[:directions] == "" && params[:material_name] == ""
       redirect to "/projects/new"
     else
+      @user = current_user
       @materials = Material.all
+      #@project.material_id = params[:material_name]
       @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
       @materials = @project.materials.create(:material_name => params[:material_name])
-      @materials.material_name == @materials.project_id
-      #@materials.save
-      #binding.pry
-      if @project.save && @materials.save
+
+      binding.pry
+      if @project.save
         redirect to "/projects/#{@project.id}"
       end
     end
@@ -39,7 +40,7 @@ class ProjectsController < ApplicationController
     if logged_in? #|| @project.user_id == session[:user_id]
       @project = Project.find_by(id: params[:id])
       @materials = Material.find_by(project_id: params[:project_id])
-      @materials.material_name == @materials.project_id
+      #@materials.material_name == @materials.project_id
       #binding.pry
       #@project.name = params[:name]
       #@project.directions = params[:directions]
@@ -65,12 +66,14 @@ class ProjectsController < ApplicationController
 
   patch '/projects/:id' do
     @project = Project.find(params[:id])
+    #binding.pry
     @materials = Material.find_by(project_id: params[:project_id])
     @project.update(:name => params[:name], :directions => params[:directions])
     @materials.update(:material_name => params[:material_name])
+    @project.material_id = params[:material_name]
     @materials.material_name == @materials.project_id
     #@materials.save
-    binding.pry
+    #binding.pry
     #@project.directions = [:directions]
     if @project.save && @materials.save
       redirect to "/projects/#{@project.id}"
