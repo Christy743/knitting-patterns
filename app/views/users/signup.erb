@@ -1,8 +1,12 @@
 <h1>Register Here!</h1>
 
-<% if flash[:message] %>
-  <%= flash[:message]%>
-<% end %>
+<br />
+
+<h4><% if flash[:message]  != nil %>
+  <div class="alert"><%= flash[:message]%></div>
+<% end %></h4>
+
+<br />
 
 <form action="/signup" method="post">
 

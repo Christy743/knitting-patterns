@@ -1,9 +1,10 @@
+require 'rack-flash'
+
 class ProjectsController < ApplicationController
 
   get '/projects' do
     if logged_in?
       @projects = Project.all
-      @user = current_user
       erb :'projects/index'
     else
       redirect to "/login"
@@ -11,7 +12,6 @@ class ProjectsController < ApplicationController
   end
 
   get '/projects/new' do
-    @materials = Material.all
     if logged_in?
       erb :'projects/new'
     else
@@ -20,16 +20,12 @@ class ProjectsController < ApplicationController
   end
 
   post '/projects' do
-    if params[:name] == "" && params[:directions] == "" && params[:material_name] == ""
+    if params[:name] == "" && params[:materials] == "" && params[:directions] == ""
       redirect to "/projects/new"
     else
-      @user = current_user
-      @materials = Material.all
-      #@project.material_id = params[:material_name]
-      @project = current_user.projects.create(:name => params[:name], :directions => params[:directions])
-      @materials = @project.materials.create(:material_name => params[:material_name])
-
-      binding.pry
+      @project = current_user.projects.create(:name => params[:name],
+                                              :materials => params[:materials],
+                                              :directions => params[:directions])
       if @project.save
         redirect to "/projects/#{@project.id}"
       end
@@ -37,13 +33,8 @@ class ProjectsController < ApplicationController
   end
 
   get '/projects/:id' do
-    if logged_in? #|| @project.user_id == session[:user_id]
+    if logged_in?
       @project = Project.find_by(id: params[:id])
-      @materials = Material.find_by(project_id: params[:project_id])
-      #@materials.material_name == @materials.project_id
-      #binding.pry
-      #@project.name = params[:name]
-      #@project.directions = params[:directions]
       erb :'projects/show_projects'
     else
       redirect to "/login"
@@ -53,29 +44,19 @@ class ProjectsController < ApplicationController
   get '/projects/:id/edit' do
     if logged_in?
       @project = Project.find_by(id: params[:id])
-      @materials = Material.find_by(project_id: params[:project_id])
       if current_user == @project.user
         erb :'projects/edit'
       else
+        flash[:message] = "You can only edit your pattern."
         redirect to "/projects"
       end
-    else
-      redirect to "/login"
     end
   end
 
   patch '/projects/:id' do
     @project = Project.find(params[:id])
-    #binding.pry
-    @materials = Material.find_by(project_id: params[:project_id])
-    @project.update(:name => params[:name], :directions => params[:directions])
-    @materials.update(:material_name => params[:material_name])
-    @project.material_id = params[:material_name]
-    @materials.material_name == @materials.project_id
-    #@materials.save
-    #binding.pry
-    #@project.directions = [:directions]
-    if @project.save && @materials.save
+    @project.update(:name => params[:name], :materials => params[:materials], :directions => params[:directions])
+    if @project.save
       redirect to "/projects/#{@project.id}"
     else
       redirect to "/projects/#{@project.id}/edit"
@@ -87,6 +68,7 @@ class ProjectsController < ApplicationController
     if current_user == @project.user
       @project.delete
     end
+    flash[:message] = "You can only delete your pattern."
     redirect to "/projects"
   end
 
