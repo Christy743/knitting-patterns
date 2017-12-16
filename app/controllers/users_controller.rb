@@ -2,7 +2,7 @@ require 'rack-flash'
 
 class UsersController < ApplicationController
 
-  use Rack::Flash
+  use Rack::Flash, :sweep => true
 
   get '/users/slug' do
     @user = User.find_by_slug(params[:slug])
@@ -11,7 +11,6 @@ class UsersController < ApplicationController
 
   get '/signup' do
     if !logged_in?
-      flash[:message] = "You must have all fields completed to sign up."
       erb :'/users/signup'
     else
       redirect to '/projects'
@@ -26,6 +25,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect to '/projects'
     else
+      flash[:message] = "You must have all fields completed to sign up."
       redirect to '/signup'
     end
   end
