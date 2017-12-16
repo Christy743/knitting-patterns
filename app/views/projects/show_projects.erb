@@ -1,24 +1,36 @@
-<h3>Project Pattern</h3>
+<h2>Project Pattern</h2>
 
+<h4><% if flash[:message]  != nil %>
+  <div class="alert"><%= flash[:message]%></div>
+<% end %></h4>
+
+<br />
+
+<h5>Pattern Name</h5>
 <%= @project.name %>
 <br />
-
-<%= @materials.material_name %>
-
 <br />
-<%= @project.directions %>
 
-      <br />
+<h5>Pattern Materials</h5>
+<%= @project.materials %>
+<br />
+<br />
+
+<h5>Pattern Directions</h5>
+<%= @project.directions %>
+<br />
+<br />
 
 <form method="post" action="/projects/<%= @project.id %>/delete">
   <input id="hidden" type="hidden" name="_method" value="delete">
-  <input type="submit" value="Delete Project">
+  <input type="submit" value="Delete Pattern">
 </form>
 
-<p>flash message for deleting someone else's project</p>
+<br />
 
-<a href="/projects/<%= @project.id %>/edit">Edit Project</a>
+<a href="/projects/<%= @project.id %>/edit">Edit Pattern</a>
 
+<br />
 <br />
 
 <a href="/projects">Go back to your list of projects</a>
