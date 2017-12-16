@@ -1,5 +1,3 @@
-require 'rack-flash'
-
 class ProjectsController < ApplicationController
 
   get '/projects' do
@@ -47,7 +45,6 @@ class ProjectsController < ApplicationController
       if current_user == @project.user
         erb :'projects/edit'
       else
-        flash[:message] = "You can only edit your pattern."
         redirect to "/projects"
       end
     end
@@ -68,7 +65,6 @@ class ProjectsController < ApplicationController
     if current_user == @project.user
       @project.delete
     end
-    flash[:message] = "You can only delete your pattern."
     redirect to "/projects"
   end
 

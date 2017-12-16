@@ -1,9 +1,5 @@
 <h2>Edit <%= @project.name %></h2>
 
-<h4><% if flash[:message]  != nil %>
-  <%= flash[:message]%>
-<% end %></h4>
-
 <% if logged_in? && current_user %>
 
 <form action="/projects/<%= @project.id %>" method="post">
@@ -15,5 +11,3 @@
 </form>
 
 <% end %>
-
-<p>flash message for those trying to delete project</p>
