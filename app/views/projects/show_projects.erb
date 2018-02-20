@@ -17,15 +17,16 @@
 <br />
 <br />
 
-<form method="post" action="/projects/<%= @project.id %>/delete">
-  <input id="hidden" type="hidden" name="_method" value="delete">
-  <input type="submit" value="Delete Pattern">
-</form>
+<% if current_user == @project.user  %>
+  <form method="post" action="/projects/<%= @project.id %>/delete">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete Pattern">
+  </form>
 
-<br />
+  <br />
 
-<a href="/projects/<%= @project.id %>/edit">Edit Pattern</a>
-
+  <a href="/projects/<%= @project.id %>/edit">Edit Pattern</a>
+<% end %>
 <br />
 <br />
 

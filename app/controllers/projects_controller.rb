@@ -51,12 +51,18 @@ class ProjectsController < ApplicationController
   end
 
   patch '/projects/:id' do
-    @project = Project.find(params[:id])
-    @project.update(:name => params[:name], :materials => params[:materials], :directions => params[:directions])
-    if @project.save
-      redirect to "/projects/#{@project.id}"
+    if logged_in?
+      if @project = current_user.projects.find_by(id: params[:id])
+        if @project.update(:name => params[:name], :materials => params[:materials], :directions => params[:directions])
+          redirect to "/projects/#{@project.id}"
+        else
+          redirect to "/projects/#{@project.id}/edit"
+        end
+      else
+        redirect to '/projects'
+      end
     else
-      redirect to "/projects/#{@project.id}/edit"
+      redirect to '/login'
     end
   end
 

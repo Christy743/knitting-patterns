@@ -5,7 +5,7 @@
 
 <h4>List of all projects</h4>
 <ul>
-  <% @projects.all.each_with_index do |project, i| %>
+  <% @projects.each_with_index do |project, i| %>
     <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name.capitalize %></a></li>
   <% end %>
 </ul>
@@ -17,14 +17,10 @@
   <p>You have no projects. Click on 'New Pattern' to create a new knitting pattern.</p>
 <% else %>
 
-<% if logged_in? && current_user %>
 <h4>List of your projects</h4>
-  <ul>
-    <% current_user.projects.all.each_with_index do |project, i| %>
-      <li><%= i + 1 %>. <a href="/projects/<%= project.id %>"><%= project.name.capitalize %></a></li>
-    <% end %>
-  </ul>
-    <% end %>
-    <br />
-
+<ol>
+  <% current_user.projects.each do |project| %>
+    <li><a href="/projects/<%= project.id %>"><%= project.name.capitalize %></a></li>
+  <% end %>
+</ol>
 <% end %>
